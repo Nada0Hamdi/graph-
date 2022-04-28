@@ -1,0 +1,54 @@
+    int dx[4] = {0, 0, -1, 1};
+    int dy[4] = {1, -1, 0, 0};
+    bool valid (int x,int y, int n, int m){
+        return if (x>=0 && x<n  && y>=0 && y<m )
+}
+    class Solution {
+    public:
+        bool vis [105][105];
+        bool BFS(int md, vector<vector<int> > & heights) {
+        int n = heights.size(); 
+        int m = heights[0].size();
+        queue< pair<int, int>> q;
+        q.push({0, 0});
+        memset(vis,false,sizeof(vis));
+        vis[0][0]=true;
+
+      while(!q.empty()) {
+         int x = (q.front()).first, y = (q.front()).second;
+            if (x==n-1 && y==m-1) return true;
+                 q.pop();
+
+        for (int i=0;i<4;i++){
+            int newx= x+dx[i];
+            int newy= y+dy[i];
+            if (valid(newx,newy,n,m) && vis[newx][newy]==false && abs (heights[x][y]-heights[newx][newy]) <=md )
+            {
+                q.push({newx,newy});
+                vis[newx][newy]= true;
+            }
+                    }
+
+                                }  
+        return false; 
+    }
+
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        
+       int s = 0, e = 2*1e6, ans = 0 , int md;
+        while (s <= e)
+        {
+             md =  (s + e) / 2;
+            if (BFS(md,heights))
+            {
+                ans = md;
+                e = md - 1; 
+            }
+            else
+            {
+                s = md + 1;
+            }
+        }
+        return ans;  
+    }
+};
