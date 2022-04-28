@@ -1,0 +1,52 @@
+int par[100005];
+void init(int sz){  
+    for (int i=0;i<sz;i++){
+        par[i]=i;
+    }    
+}
+int find(int x){
+    if (par[x]==x)
+        return x;
+    return par[x] = find(par[x]);
+}
+ 
+void join(int x, int y){
+    x=find(x); 
+    y=find(y);
+    if (find(x)!=find(y)){
+        par[x]=y;
+    }    
+} 
+
+void copy (vector<int>ss,string &s){
+    vector<char>c;
+    for (auto t:ss)
+    c.push_back(s[t]);
+
+    sort(c.begin(),c.end());
+    int idx=0;
+    for(auto t:ss)
+    s[t] = c[idx++] ;
+
+}
+    
+class Solution {
+public:
+    string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
+    int n = s.size();
+    init(n);
+    for (auto t:pairs)
+        join(t[0],t[1]);
+    
+
+   unordered_map<int, vector<int>> mp;
+    for(int i=0;i<n;i++){
+        mp[find(i)].push_back(i);
+    }      
+
+    for (auto t:mp){
+   copy(t.second , s );
+    }
+    return s;
+    }
+};
